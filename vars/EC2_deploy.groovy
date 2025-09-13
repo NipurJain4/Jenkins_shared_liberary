@@ -13,7 +13,7 @@ echo "📥 Pulling image..."
 docker pull ${ec2_uri}
 
 echo "🚀 Running container..."
-docker run -d -p 3000:80 --name profilecard ${ec2_uri}
+docker run -d -p 3000:5300 --name profilecard ${ec2_uri}
 EOF
         """
     }
