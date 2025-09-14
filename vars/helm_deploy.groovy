@@ -1,22 +1,27 @@
-def call(String helmRepoUrl, String gitUser = "NipurJain4", String gitEmail = "nipurjain.tmu.cs@gmail.com") {
-    withCredentials([string(credentialsId: 'nipur-ssh-key', variable: 'GITHUB_TOKEN')]) {
+def call(String repoUrl) {
+    withCredentials([string(credentialsId: 'github-token', variable: 'GITHUB_TOKEN')]) {
         sh """
-        export image_tag=v_${GIT_COMMIT}_${BUILD_ID}
+            export image_tag=v_${env.GIT_COMMIT}_${env.BUILD_NUMBER}
 
-        # Clone repo using token (remove https:// from helmRepoUrl)
-        git clone https://\${GITHUB_TOKEN}@github.com/NipurJain4/DevOps-Task-Swayatt-helm_chart.git
-        cd DevOps-Task-Swayatt-helm_chart
+            # Remove existing directory if it exists
+            rm -rf DevOps-Task-Swayatt-helm_chart
 
-        # Update values.yaml with new image tag
-        sed -i "s/^  tag:.*/  tag: \${image_tag}/" values.yaml
+            # Clone the repository
+            git clone https://\${GITHUB_TOKEN}@github.com/NipurJain4/DevOps-Task-Swayatt-helm_chart.git
 
-        # Configure git
-        git config user.name "${gitUser}"
-        git config user.email "${gitEmail}"
+            cd DevOps-Task-Swayatt-helm_chart
 
-        git add values.yaml
-        git commit -m "Update Docker image tag to \${image_tag}"
-        git push origin main
+            # Update values.yaml with new image tag
+            sed -i "s/tag: .*/tag: \${image_tag}/" values.yaml
+
+            # Configure git
+            git config user.name "Jenkins"
+            git config user.email "jenkins@example.com"
+
+            # Commit and push changes
+            git add values.yaml
+            git commit -m "Update image tag to \${image_tag}"
+            git push origin main
         """
     }
 }
