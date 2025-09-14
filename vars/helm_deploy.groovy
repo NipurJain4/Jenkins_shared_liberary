@@ -1,5 +1,5 @@
 def call(String helmRepoUrl, String gitUser = "NipurJain4", String gitEmail = "nipurjain.tmu.cs@gmail.com") {
-   sh'''
+   sh"""
    export image_tag=v_${GIT_COMMIT}_${BUILD_ID}
    git clone ${helmRepoUrl}
    cd DevOps-Task-Swayatt-helm_chart
@@ -9,7 +9,7 @@ def call(String helmRepoUrl, String gitUser = "NipurJain4", String gitEmail = "n
         git config user.email "${gitEmail}"
           # Commit and push the change
         git add values.yaml
-        git commit -m "Update Docker image tag to ${newImageTag}"
+        git commit -m "Update Docker image tag to ${image_tag}"
         git push origin main
-   '''
+   """
 }
