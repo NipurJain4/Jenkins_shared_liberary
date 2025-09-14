@@ -1,5 +1,5 @@
 def call(String repoUrl) {
-    withCredentials([string(credentialsId: 'github-token', variable: 'GITHUB_TOKEN')]) {
+    withCredentials([string(credentialsId: 'nipur-ssh-key', variable: 'GITHUB_TOKEN')]) {
         sh """
             export image_tag=v_${env.GIT_COMMIT}_${env.BUILD_NUMBER}
 
