@@ -19,7 +19,7 @@ def call(String helmRepoUrl, String gitUser = "NipurJain4", String gitEmail = "n
         export image_tag=v_${GIT_COMMIT}_${BUILD_ID}
 
         # Clone repo using token
-        git clone https://${GITHUB_TOKEN}@${helmRepoUrl.replace('https://', '')}
+        git clone https://${GITHUB_TOKEN}@${helmRepoUrl}
         cd DevOps-Task-Swayatt-helm_chart
 
         # Update values.yaml with new image tag
